@@ -30,8 +30,6 @@ defmodule SimpleDocker do
   end
 
   defp docker(args) do
-    Logger.debug "$ docker #{args |> Enum.join(" ")}"
-
     case get_system_type() do
       :mac -> System.cmd("docker", args, into: IO.stream(:stdio, :line))
       _ -> System.cmd("sudo docker", args, into: IO.stream(:stdio, :line))
