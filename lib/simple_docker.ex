@@ -39,8 +39,8 @@ defmodule SimpleDocker do
 
   defp docker(args) do
     case SimpleDocker.SystemInfo.get_system_type() do
-      :mac -> System.cmd("docker", args, into: IO.stream(:stdio, :line))
-      _ -> System.cmd("sudo", ["docker"] ++ args, into: IO.stream(:stdio, :line))
+      :mac -> System.cmd("docker", args)
+      _ -> System.cmd("sudo", ["docker"] ++ args)
     end
   end
 end
