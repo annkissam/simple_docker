@@ -1,9 +1,9 @@
 # SimpleDocker
 
-A lightweight interface that allows us to run docker commands through elixir
-This framework can be easily integrated in a dockerized elixir process as it
+A lightweight/configurable interface that allows us to run docker commands through elixir.
+This framework can be easily integrated in a dockerized elixir workflow as it
 does not depend on any release package and does not want you to follow any
-specific process for elixir deploys.
+specific instructions for elixir deploys.
 
 NOTE: This framework has support for both Mac and Linux
 
