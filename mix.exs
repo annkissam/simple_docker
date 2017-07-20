@@ -1,34 +1,93 @@
 defmodule SimpleDocker.Mixfile do
   use Mix.Project
 
+  @version "0.1.0"
+  @url "https://github.com/annkissam/simple_docker"
+
   def project do
     [
       app: :simple_docker,
-      version: "0.1.0",
-      elixir: "~> 1.3",
+      version: @version,
+      elixir: "~> 1.3.4",
+      deps: deps(),
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
-      deps: deps()
+
+      # Test
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [coveralls: :test],
+      aliases: aliases(),
+      elixirc_paths: elixirc_paths(Mix.env),
+
+      # Hex
+      description: description(),
+      package: package(),
+
+      # Docs
+      name: "SimpleDocker",
+      docs: docs(),
     ]
   end
 
-  # Configuration for the OTP application
-  #
-  # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger]]
+    [
+      applications: [
+        :logger
+      ],
+    ]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:mydep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
-  #
-  # Type "mix help deps" for more examples and options
-  defp deps do
-    []
+  def package do
+    [
+      files: ["lib", "mix.exs", "README.md"],
+      maintainers: ["Adi Iyengar"],
+      licenses: ["MIT"],
+      links: %{"Github" => @url},
+    ]
   end
+
+  defp deps do
+    [
+      {:credo, "~> 0.5", only: [:dev, :test]},
+      {:excoveralls, "~> 0.3", only: :test},
+      {:ex_doc, "~> 0.14", only: :dev, runtime: false},
+      {:inch_ex, "~> 0.5", only: [:dev, :test, :docs]},
+    ]
+  end
+
+  defp description do
+    """
+    A lightweight interface that allows us to run docker commands through elixir
+    """
+  end
+
+  def docs do
+    [
+      main: "SimpleDocker",
+      source_url: @url,
+      source_ref: "v#{@version}"
+    ]
+  end
+
+  defp aliases do
+    [
+      "ecto.setup": [
+        "ecto.create",
+        "ecto.migrate"
+      ],
+     "ecto.reset": [
+        "ecto.drop",
+        "ecto.setup"
+      ],
+     "test": [
+        # "ecto.drop",
+        "ecto.create --quiet",
+        "ecto.migrate",
+        "test"
+      ],
+    ]
+  end
+
+  defp elixirc_paths(:test), do: ["lib", "priv", "test/support"]
+  defp elixirc_paths(_),     do: ["lib"]
 end
