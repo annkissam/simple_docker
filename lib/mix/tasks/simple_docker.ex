@@ -5,7 +5,7 @@ defmodule Mix.Tasks.SimpleDocker.Build do
 
   def run(argv) do
     {[f: dockerfile, t: tag], _, _} =
-      OptionsParser.parse(argv, switches: @switches)
+      OptionParser.parse(argv, switches: @switches)
 
     SimpleDocker.build(dockerfile, tag)
   end
@@ -18,7 +18,7 @@ defmodule Mix.Tasks.SimpleDocker.Cp do
 
   def run(argv) do
     {[container: cid, from: source, to: dest], _, _} =
-      OptionsParser.parse(argv, switches: @switches)
+      OptionParser.parse(argv, switches: @switches)
 
     SimpleDocker.cp(cid, source, dest)
   end
@@ -37,7 +37,7 @@ defmodule Mix.Tasks.SimpleDocker.Create do
 
   def run(argv) do
     {[container: cid, from: source, to: dest], _, _} =
-      OptionsParser.parse(argv, switches: @switches)
+      OptionParser.parse(argv, switches: @switches)
 
     SimpleDocker.cp(cid, source, dest)
   end
@@ -50,7 +50,7 @@ defmodule Mix.Tasks.SimpleDocker.Rm do
 
   def run(argv) do
     {[container: cid], _, _} =
-      OptionsParser.parse(argv, switches: @switches)
+      OptionParser.parse(argv, switches: @switches)
 
     SimpleDocker.rm(cid)
   end
@@ -62,8 +62,8 @@ defmodule Mix.Tasks.SimpleDocker.Tag do
   @switches [image: :string, tag: :string]
 
   def run(argv) do
-    {[image: image. tag: tag], _, _} =
-      OptionsParser.parse(argv, switches: @switches)
+    {[image: image, tag: tag], _, _} =
+      OptionParser.parse(argv, switches: @switches)
 
     SimpleDocker.tag(image, tag)
   end
@@ -75,8 +75,8 @@ defmodule Mix.Tasks.SimpleDocker.Push do
   @switches [image: :string, tag: :string]
 
   def run(argv) do
-    {[image: image. tag: tag], _, _} =
-      OptionsParser.parse(argv, switches: @switches)
+    {[image: image, tag: tag], _, _} =
+      OptionParser.parse(argv, switches: @switches)
 
     SimpleDocker.push(image, tag)
   end

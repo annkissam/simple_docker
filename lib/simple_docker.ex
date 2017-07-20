@@ -1,4 +1,6 @@
 defmodule SimpleDocker do
+  require SimpleDocker.SystemInfo
+
   def build(dockerfile, tag) do
     docker ["build", "-f", dockerfile, "-t", tag]
   end
@@ -28,19 +30,9 @@ defmodule SimpleDocker do
   end
 
   defp docker(args) do
-    case get_system_type() do
+    case SimpleDocker.SystemInfo.get_system_type() do
       :mac -> System.cmd("docker", args, into: IO.stream(:stdio, :line))
       _ -> System.cmd("sudo docker", args, into: IO.stream(:stdio, :line))
-    end
-  end
-
-  # Works for only Mac OSX or Ubuntu
-  defp get_system_type() do
-    try do
-      System.cmd("system_profiler", ["SPSoftwareDataType"])
-      :mac
-    rescue
-      ErlangError -> :ubuntu
     end
   end
 end
