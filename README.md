@@ -1,10 +1,15 @@
 # SimpleDocker
 
-**TODO: Add description**
+A lightweight interface that allows us to run docker commands through elixir
+This framework can be easily integrated in a dockerized elixir process as it
+does not depend on any release package and does not want you to follow any
+specific process for elixir deploys.
+
+NOTE: This framework has support for both Mac and Linux
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+This package has available in hex and can be installed as:
 
   1. Add `simple_docker` to your list of dependencies in `mix.exs`:
 
