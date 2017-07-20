@@ -1,6 +1,4 @@
 defmodule SimpleDocker do
-  require Logger
-
   def build(dockerfile, tag) do
     docker ["build", "-f", dockerfile, "-t", tag]
   end
