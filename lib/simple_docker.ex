@@ -31,6 +31,20 @@ defmodule SimpleDocker do
 
   defp docker(args) do
     Logger.debug "$ docker #{args |> Enum.join(" ")}"
-    System.cmd("docker", args, into: IO.stream(:stdio, :line))
+
+    case get_system_type() do
+      :mac -> System.cmd("docker", args, into: IO.stream(:stdio, :line))
+      _ -> System.cmd("sudo docker", args, into: IO.stream(:stdio, :line))
+    end
+  end
+
+  # Works for only Mac OSX or Ubuntu
+  defp get_system_type() do
+    try do
+      System.cmd("system_profiler", ["SPSoftwareDataType"])
+      :mac
+    rescue
+      ErlangError -> :ubuntu
+    end
   end
 end
