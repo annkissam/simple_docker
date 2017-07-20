@@ -30,6 +30,12 @@ defmodule Mix.Tasks.SimpleDocker.Ps do
   def run(_), do: SimpleDocker.ps()
 end
 
+defmodule Mix.Tasks.SimpleDocker.Images do
+  use Mix.Task
+
+  def run(_), do: SimpleDocker.images()
+end
+
 defmodule Mix.Tasks.SimpleDocker.Create do
   use Mix.Task
 
@@ -53,6 +59,19 @@ defmodule Mix.Tasks.SimpleDocker.Rm do
       OptionParser.parse(argv, switches: @switches)
 
     SimpleDocker.rm(cid)
+  end
+end
+
+defmodule Mix.Tasks.SimpleDocker.Rmi do
+  use Mix.Task
+
+  @switches [image: :string]
+
+  def run(argv) do
+    {[image: image_id], _, _} =
+      OptionParser.parse(argv, switches: @switches)
+
+    SimpleDocker.rmi(image_id)
   end
 end
 

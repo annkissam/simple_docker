@@ -10,7 +10,15 @@ defmodule SimpleDocker do
   end
 
   def ps() do
-    docker ["ps", "-a", "-q"]
+    docker ["ps"]
+  end
+
+  def images() do
+    docker ["images"]
+  end
+
+  def rmi(image_id) do
+    docker ["rmi", image_id]
   end
 
   def create(name, image) do
@@ -32,7 +40,7 @@ defmodule SimpleDocker do
   defp docker(args) do
     case SimpleDocker.SystemInfo.get_system_type() do
       :mac -> System.cmd("docker", args, into: IO.stream(:stdio, :line))
-      _ -> System.cmd("sudo docker", args, into: IO.stream(:stdio, :line))
+      _ -> System.cmd("sudo", ["docker"] ++ args, into: IO.stream(:stdio, :line))
     end
   end
 end
