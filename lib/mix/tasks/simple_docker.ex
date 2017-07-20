@@ -7,7 +7,7 @@ defmodule Mix.Tasks.SimpleDocker.Build do
     {[f: dockerfile, t: tag], _, _} =
       OptionParser.parse(argv, switches: @switches)
 
-    SimpleDocker.build(dockerfile, tag)
+    IO.puts elem(SimpleDocker.build(dockerfile, tag), 0)
   end
 end
 
@@ -20,20 +20,20 @@ defmodule Mix.Tasks.SimpleDocker.Cp do
     {[container: cid, from: source, to: dest], _, _} =
       OptionParser.parse(argv, switches: @switches)
 
-    SimpleDocker.cp(cid, source, dest)
+    IO.puts elem(SimpleDocker.cp(cid, source, dest), 0)
   end
 end
 
 defmodule Mix.Tasks.SimpleDocker.Ps do
   use Mix.Task
 
-  def run(_), do: SimpleDocker.ps()
+  def run(_), do: IO.puts elem(SimpleDocker.ps(), 0)
 end
 
 defmodule Mix.Tasks.SimpleDocker.Images do
   use Mix.Task
 
-  def run(_), do: SimpleDocker.images()
+  def run(_), do: IO.puts elem(SimpleDocker.images(), 0)
 end
 
 defmodule Mix.Tasks.SimpleDocker.Create do
@@ -45,7 +45,7 @@ defmodule Mix.Tasks.SimpleDocker.Create do
     {[container: cid, from: source, to: dest], _, _} =
       OptionParser.parse(argv, switches: @switches)
 
-    SimpleDocker.cp(cid, source, dest)
+    IO.puts elem(SimpleDocker.cp(cid, source, dest), 0)
   end
 end
 
@@ -58,7 +58,7 @@ defmodule Mix.Tasks.SimpleDocker.Rm do
     {[container: cid], _, _} =
       OptionParser.parse(argv, switches: @switches)
 
-    SimpleDocker.rm(cid)
+    IO.puts elem(SimpleDocker.rm(cid), 0)
   end
 end
 
@@ -71,7 +71,7 @@ defmodule Mix.Tasks.SimpleDocker.Rmi do
     {[image: image_id], _, _} =
       OptionParser.parse(argv, switches: @switches)
 
-    SimpleDocker.rmi(image_id)
+    IO.puts elem(SimpleDocker.rmi(image_id), 0)
   end
 end
 
@@ -84,7 +84,7 @@ defmodule Mix.Tasks.SimpleDocker.Tag do
     {[image: image, tag: tag], _, _} =
       OptionParser.parse(argv, switches: @switches)
 
-    SimpleDocker.tag(image, tag)
+    IO.puts elem(SimpleDocker.tag(image, tag), 0)
   end
 end
 
@@ -97,6 +97,6 @@ defmodule Mix.Tasks.SimpleDocker.Push do
     {[image: image, tag: tag], _, _} =
       OptionParser.parse(argv, switches: @switches)
 
-    SimpleDocker.push(image, tag)
+    IO.puts elem(SimpleDocker.push(image, tag), 0)
   end
 end
