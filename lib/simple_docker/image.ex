@@ -30,22 +30,21 @@ defmodule SimpleDocker.Image do
     end
   end
 
-  def get(image_id) do
-    with {:ok, images} <- list_images(:all),
-      nil <- Enum.find(images, & &1.id == image_id)
-    do
-      {:error, "Cannot find image with id: #{image_id}"}
-    else
-      {:error, error} -> {:error, error}
-      image -> {:ok, image}
-    end
-  end
-
   def get(repository: repo) do
     with {:ok, images} <- list_images(:all),
       nil <- Enum.find(images, & &1.repository == repo)
     do
       {:error, "Cannot find image with repository: #{repo}"}
+    else
+      {:error, error} -> {:error, error}
+      image -> {:ok, image}
+    end
+  end
+  def get(image_id) do
+    with {:ok, images} <- list_images(:all),
+      nil <- Enum.find(images, & &1.id == image_id)
+    do
+      {:error, "Cannot find image with id: #{image_id}"}
     else
       {:error, error} -> {:error, error}
       image -> {:ok, image}
