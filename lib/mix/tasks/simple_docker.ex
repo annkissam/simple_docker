@@ -26,8 +26,14 @@ end
 
 defmodule Mix.Tasks.SimpleDocker.Ps do
   use Mix.Task
+  @switches [all: :boolean]
 
-  def run(_), do: IO.puts elem(SimpleDocker.ps(), 0)
+  def run(argv) do
+    {opts, _, _} =
+      OptionParser.parse(argv, switches: @switches)
+
+    IO.puts elem(SimpleDocker.ps(opts[:all]), 0)
+  end
 end
 
 defmodule Mix.Tasks.SimpleDocker.Images do
