@@ -41,6 +41,17 @@ defmodule SimpleDocker.Image do
     end
   end
 
+  def get(repository: repo) do
+    with {:ok, images} <- list_images(:all),
+      nil <- Enum.find(images, & &1.repository == repo)
+    do
+      {:error, "Cannot find image with repository: #{repo}"}
+    else
+      {:error, error} -> {:error, error}
+      image -> {:ok, image}
+    end
+  end
+
   def list_images(:all) do
     case docker ["images", "--all", "--format", @format] do
       {stringified_list, 0} -> {:ok, parse_stringified_list(stringified_list)}
