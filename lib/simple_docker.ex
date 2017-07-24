@@ -2,7 +2,7 @@ defmodule SimpleDocker do
   require SimpleDocker.SystemInfo
 
   def build(dockerfile, tag) do
-    docker ["build", "-f", dockerfile, "-t", tag, ".."]
+    docker ["build", "-f", dockerfile, "-t", tag, "."]
   end
 
   def cp(cid, source, dest) do
