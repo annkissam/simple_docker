@@ -2,14 +2,17 @@ defmodule SimpleDocker do
   require SimpleDocker.SystemInfo
 
   def build(dockerfile, tag) do
-    docker ["build", "-f", dockerfile, "-t", tag]
+    docker ["build", "-f", dockerfile, "-t", tag, ".."]
   end
 
   def cp(cid, source, dest) do
     docker ["cp", "#{cid}:#{source}", dest]
   end
 
-  def ps() do
+  def ps(true) do
+    docker ["ps", "-a"]
+  end
+  def ps(_) do
     docker ["ps"]
   end
 
@@ -21,7 +24,10 @@ defmodule SimpleDocker do
     docker ["rmi", image_id]
   end
 
-  def create(name, image) do
+  def create(image) do
+    docker ["create", image]
+  end
+  def create(image, name) do
     docker ["create", "--name", name, image]
   end
 
@@ -38,9 +44,13 @@ defmodule SimpleDocker do
   end
 
   defp docker(args) do
-    case SimpleDocker.SystemInfo.get_system_type() do
-      :mac -> System.cmd("docker", args)
-      _ -> System.cmd("sudo", ["docker"] ++ args)
+    try do
+      case SimpleDocker.SystemInfo.get_system_type() do
+        :mac -> System.cmd("docker", args)
+        _ -> System.cmd("sudo", ["docker"] ++ args)
+      end
+    rescue
+      e in ErlangError -> {e, 1}
     end
   end
 end
