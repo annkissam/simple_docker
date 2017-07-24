@@ -14,7 +14,7 @@ defmodule SimpleDocker.Container do
 
   def create(%Image{id: image_id}) do
     case docker ["container", "create", image_id] do
-      {cid, 0} -> {:ok, cid}
+      {cid, 0} -> {:ok, String.slice(cid, 0..11)}
       {error, 1} -> {:error, error}
     end
   end
