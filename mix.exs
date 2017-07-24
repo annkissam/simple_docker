@@ -70,22 +70,7 @@ defmodule SimpleDocker.Mixfile do
   end
 
   defp aliases do
-    [
-      "ecto.setup": [
-        "ecto.create",
-        "ecto.migrate"
-      ],
-     "ecto.reset": [
-        "ecto.drop",
-        "ecto.setup"
-      ],
-     "test": [
-        # "ecto.drop",
-        "ecto.create --quiet",
-        "ecto.migrate",
-        "test"
-      ],
-    ]
+    []
   end
 
   defp elixirc_paths(:test), do: ["lib", "priv", "test/support"]
