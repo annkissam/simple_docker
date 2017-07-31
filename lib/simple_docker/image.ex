@@ -65,6 +65,12 @@ defmodule SimpleDocker.Image do
     end
   end
 
+  def remove(%SimpleDocker.Image{id: image_id}) do
+    case docker ["image", "rm", "--force", image_id] do
+      {message, 0} -> {:ok, message}
+      {error, 1} -> {:error, error}
+    end
+  end
   def remove(image_id) do
     case docker ["image", "rm", "--force", image_id] do
       {message, 0} -> {:ok, message}
