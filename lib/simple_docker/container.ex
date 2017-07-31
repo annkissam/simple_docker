@@ -1,5 +1,5 @@
 defmodule SimpleDocker.Container do
-  alias SimpleDocker.{Image, SystemInfo}
+  alias SimpleDocker.{Container, Image, SystemInfo}
 
   defstruct id: nil,
     image_name: nil,
@@ -51,7 +51,7 @@ defmodule SimpleDocker.Container do
     end
   end
 
-  def list_containers(%Image{repository: name}, stdio) do
+  def list_containers(%Image{repository: name}, _stdio) do
     with {:ok, containers} <- list_containers(:all),
       containers <- Enum.filter(containers, & &1.image_name == name)
     do
@@ -68,7 +68,7 @@ defmodule SimpleDocker.Container do
     end
   end
 
-  def copy(%SimpleDocker.Container{id: container_id}, source, dest, stdio \\ false) do
+  def copy(%Container{id: container_id}, source, dest, stdio \\ false) do
     case SimpleDocker.cp(container_id, source, dest, stdio) do
       {message, 0} -> {:ok, message}
       {error, 1} -> {:error, error}
@@ -79,7 +79,7 @@ defmodule SimpleDocker.Container do
     opts = stdio && [into: IO.stream(:stdio, :line)] || []
 
     try do
-      case SimpleDocker.SystemInfo.get_system_type() do
+      case SystemInfo.get_system_type() do
         :mac -> System.cmd("docker", args, opts)
         _ -> System.cmd("sudo", ["docker"] ++ args, opts)
       end
@@ -110,6 +110,6 @@ defmodule SimpleDocker.Container do
       |> (&elem(&1, 0)).()
       |> Enum.into(%{})
 
-    struct(SimpleDocker.Container, params)
+    struct(Container, params)
   end
 end

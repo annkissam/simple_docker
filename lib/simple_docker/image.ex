@@ -1,4 +1,6 @@
 defmodule SimpleDocker.Image do
+  alias SimpleDocker.{Image, SystemInfo}
+
   defstruct repository: nil,
     id: nil,
     tag: nil,
@@ -23,7 +25,7 @@ defmodule SimpleDocker.Image do
     end
   end
 
-  def tag(%SimpleDocker.Image{id: id}, tag_name, stdio \\ false) do
+  def tag(%Image{id: id}, tag_name, stdio \\ false) do
     case docker ["tag", id, tag_name], stdio do
       {_image, 0} -> {:ok, :done}
       {error, 1} -> {:error, error}
@@ -67,7 +69,7 @@ defmodule SimpleDocker.Image do
   end
 
   def remove(image_or_image_id, stdio \\ false)
-  def remove(%SimpleDocker.Image{id: image_id}, stdio) do
+  def remove(%Image{id: image_id}, stdio) do
     case docker ["image", "rm", "--force", image_id], stdio do
       {message, 0} -> {:ok, message}
       {error, 1} -> {:error, error}
@@ -84,7 +86,7 @@ defmodule SimpleDocker.Image do
     opts = stdio && [into: IO.stream(:stdio, :line)] || []
 
     try do
-      case SimpleDocker.SystemInfo.get_system_type() do
+      case SystemInfo.get_system_type() do
         :mac -> System.cmd("docker", args, opts)
         _ -> System.cmd("sudo", ["docker"] ++ args, opts)
       end
@@ -115,6 +117,6 @@ defmodule SimpleDocker.Image do
       |> (&elem(&1, 0)).()
       |> Enum.into(%{})
 
-    struct(SimpleDocker.Image, params)
+    struct(Image, params)
   end
 end
