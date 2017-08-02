@@ -17,7 +17,7 @@ defmodule Mix.Tasks.SimpleDocker.Build do
     {[f: dockerfile, t: tag], _, _} =
       OptionParser.parse(argv, switches: @switches)
 
-    SimpleDocker.build(dockerfile, tag)
+    SimpleDocker.build(dockerfile, tag, true)
   end
 end
 
@@ -40,7 +40,7 @@ defmodule Mix.Tasks.SimpleDocker.Cp do
     {[container: cid, from: source, to: dest], _, _} =
       OptionParser.parse(argv, switches: @switches)
 
-    SimpleDocker.cp(cid, source, dest)
+    SimpleDocker.cp(cid, source, dest, true)
   end
 end
 
@@ -64,7 +64,7 @@ defmodule Mix.Tasks.SimpleDocker.Ps do
     {opts, _, _} =
       OptionParser.parse(argv, switches: @switches)
 
-    SimpleDocker.ps(opts[:all])
+    SimpleDocker.ps(opts[:all], true)
   end
 end
 
@@ -81,7 +81,7 @@ defmodule Mix.Tasks.SimpleDocker.Images do
   @doc """
   Delegates the arguments to SimpleDocker and prints the output
   """
-  def run(_), do: SimpleDocker.images()
+  def run(_), do: SimpleDocker.images(true)
 end
 
 defmodule Mix.Tasks.SimpleDocker.Create do
@@ -106,8 +106,8 @@ defmodule Mix.Tasks.SimpleDocker.Create do
       OptionParser.parse(argv, switches: @switches)
 
     case opts[:name] do
-      nil -> SimpleDocker.create(image, nil)
-      name -> SimpleDocker.create(image, name)
+      nil -> SimpleDocker.create(image, nil, true)
+      name -> SimpleDocker.create(image, name, true)
     end
   end
 end
@@ -131,7 +131,7 @@ defmodule Mix.Tasks.SimpleDocker.Rm do
     {[container: cid], _, _} =
       OptionParser.parse(argv, switches: @switches)
 
-    SimpleDocker.rm(cid)
+    SimpleDocker.rm(cid, true)
   end
 end
 
@@ -154,7 +154,7 @@ defmodule Mix.Tasks.SimpleDocker.Rmi do
     {[image: image_id], _, _} =
       OptionParser.parse(argv, switches: @switches)
 
-    SimpleDocker.rmi(image_id)
+    SimpleDocker.rmi(image_id, true)
   end
 end
 
@@ -177,7 +177,7 @@ defmodule Mix.Tasks.SimpleDocker.Tag do
     {[image: image, tag: tag], _, _} =
       OptionParser.parse(argv, switches: @switches)
 
-    SimpleDocker.tag(image, tag)
+    SimpleDocker.tag(image, tag, true)
   end
 end
 
@@ -200,6 +200,6 @@ defmodule Mix.Tasks.SimpleDocker.Push do
     {[image: image, tag: tag], _, _} =
       OptionParser.parse(argv, switches: @switches)
 
-    SimpleDocker.push(image, tag)
+    SimpleDocker.push(image, tag, true)
   end
 end
