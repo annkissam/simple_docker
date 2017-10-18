@@ -37,8 +37,8 @@ defmodule SimpleDocker do
     docker ["tag", image, tag], stdio
   end
 
-  def push(image, args, stdio \\ false) do
-    docker ["push"] ++ args ++ [image], stdio
+  def push(image, stdio \\ false) do
+    docker ["push"] ++ [image], stdio
   end
 
   def rm(cid, stdio \\ false) do

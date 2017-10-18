@@ -191,15 +191,15 @@ defmodule Mix.Tasks.SimpleDocker.Push do
   `$ mix simple_docker.push --image <image-name-or-tag> --tag <tag-to-push-by>`
   """
 
-  @switches [image: :string, tag: :string]
+  @switches [image: :string]
 
   @doc """
   Delegates the arguments to SimpleDocker and prints the output
   """
   def run(argv) do
-    {[image: image, tag: tag], _, _} =
+    {[image: image], _, _} =
       OptionParser.parse(argv, switches: @switches)
 
-    SimpleDocker.push(image, tag, true)
+    SimpleDocker.push(image, true)
   end
 end
