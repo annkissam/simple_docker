@@ -8,7 +8,7 @@ defmodule SimpleDocker.Mixfile do
     [
       app: :simple_docker,
       version: @version,
-      elixir: "~> 1.4.2",
+      elixir: "~> 1.4",
       deps: deps(),
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
